@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contáctenos - Vístete</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/contactenos.css">
+</head>
+<body>
+    <!-- Custom Message Box HTML -->
+    <div id="customMessageBox" class="custom-message-box-overlay">
+        <div class="custom-message-box-content">
+            <p id="messageBoxText"></p>
+            <button class="btn btn-primary" id="messageBoxCloseBtn">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- Modal de Detalles del Producto (Se mantiene por si se usa en otras páginas o futuras implementaciones) -->
+    <div id="productDetailsModal" class="product-details-modal-overlay">
+        <div class="product-details-modal-content">
+            <button class="product-details-modal-close-btn">&times;</button>
+            <div class="product-details-modal-image-container">
+                <img id="modalProductImage" src="https://placehold.co/400x400/cccccc/333333?text=Producto" alt="Imagen del Producto">
+            </div>
+            <div class="product-details-modal-info">
+                <h3 id="modalProductName">Nombre del Producto</h3>
+                <span class="price" id="modalProductPrice">$0.00</span>
+                <ul>
+                    <li>Disponibilidad: <span id="modalProductAvailability">En Stock</span></li>
+                    <li>Código: <span id="modalProductCode">N/A</span></li>
+                    <li>Tipo: <span id="modalProductType">N/A</span></li>
+                    <li>Vendedor: <span id="modalProductVendor">Vístete</span></li>
+                </ul>
+                <div class="size-options" id="modalProductSizes">
+                    <!-- Los tamaños se cargarán aquí -->
+                </div>
+                <div class="quantity-control">
+                    <button id="decreaseQuantity">-</button>
+                    <input type="number" id="productQuantity" value="1" min="1">
+                    <button id="increaseQuantity">+</button>
+                </div>
+                <button class="add-to-cart-full-btn">AÑADIR AL CARRITO</button>
+            </div>
+        </div>
+    </div>
+
+    <header class="main-header">
+        <nav class="main-nav">
+            <a href="index.html" class="logo">Vístete</a>
+            <button class="nav-toggle" aria-label="abrir navegación">
+                <span class="hamburger"></span>
+            </button>
+            <ul class="nav-menu">
+                <li class="nav-menu-item"><a href="index.html" class="nav-menu-link">Inicio</a></li>
+                <li class="nav-menu-item"><a href="mujeres.html" class="nav-menu-link">Mujeres</a></li>
+                <li class="nav-menu-item"><a href="hombres.html" class="nav-menu-link">Hombres</a></li>
+                <li class="nav-menu-item"><a href="ninos.html" class="nav-menu-link">Niños</a></li>
+                <li class="nav-menu-item"><a href="nosotros.html" class="nav-menu-link">Nosotros</a></li>
+                <li class="nav-menu-item"><a href="contactenos.html" class="nav-menu-link">Contáctenos</a></li>
+                <li class="nav-menu-item icon-item"><a href="login.html" class="nav-menu-link" aria-label="Iniciar sesión"><i class="fas fa-user"></i></a></li>
+                <li class="nav-menu-item icon-item"><a href="carrito.html" class="nav-menu-link" aria-label="Ver carrito"><i class="fas fa-shopping-cart"></i></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Sección Hero para Contáctenos -->
+        <section class="hero-contactenos" style="background-image: url('https://placehold.co/1920x600/2d3748/ffffff?text=Contáctenos');">
+            <div class="carousel-content">
+                <h1>CONTÁCTENOS</h1>
+                <p>Estamos aquí para ayudarte. Tu estilo, nuestra prioridad.</p>
+            </div>
+        </section>
+
+        <!-- Sección de Información de Contacto y Formulario -->
+        <section class="contact-info-form-section section-container">
+            <h2 class="section-title">Hablemos</h2>
+            <div class="contact-content-grid">
+                <div class="contact-info">
+                    <h3>Información de Contacto</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Dirección: Av. Principal 123, Lima, Perú</p>
+                    <p><i class="fas fa-phone"></i> Teléfono: +51 987 654 321</p>
+                    <p><i class="fas fa-envelope"></i> Correo: info@vistete.com</p>
+                    <p><i class="fas fa-clock"></i> Horario: Lunes - Viernes: 9:00 AM - 6:00 PM</p>
+                    <div class="social-icons-contact">
+                        <a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="contact-form-container">
+                    <h3>Envíanos un Mensaje</h3>
+                    <form class="contact-form">
+                        <div class="form-group">
+                            <label for="name">Nombre Completo</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Correo Electrónico</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Asunto</label>
+                            <input type="text" id="subject" name="subject">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Tu Mensaje</label>
+                            <textarea id="message" name="message" rows="6" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">ENVIAR MENSAJE</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Mapa -->
+        <section class="map-section section-container">
+            <h2 class="section-title">Dónde Encontrarnos</h2>
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2622.3993388178974!2d-77.01259270344863!3d-12.065193043533894!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c89e3d598d11%3A0x7d6e980b956396a3!2sJr.%20Sebasti%C3%A1n%20Barranca%201778%2C%20Lima%2015018!5e1!3m2!1ses-419!2spe!4v1751848018404!5m2!1ses-419!2spe" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </section>
+    <footer class="main-footer-robust">
+        <div class="footer-content-robust">
+            <div class="footer-section-robust about">
+                <h3>Vístete</h3>
+                <p>Redefiniendo el paso de la humanidad, un zapato a la vez. Innovación, calidad y estilo incomparable.</p>
+            </div>
+            <div class="footer-section-robust links">
+                <h3>Acceso Rápido</h3>
+                <ul>
+                    <li><a href="index.html#destacados">Productos</a></li>
+                    <li><a href="index.html#categorias">Categorías</a></li>
+                    <li><a href="index.html#nosotros">Nuestra Misión</a></li>
+                    <li><a href="index.html#proximamente">Próximamente</a></li>
+                    <li><a href="index.html#novedades">Suscríbete</a></li>
+                </ul>
+            </div>
+            <div class="footer-section-robust social">
+                <h3>Conecta con Nosotros</h3>
+                <a href="#" target="_blank" aria-label="Facebook de Vístete"><img src="https://img.icons8.com/ios-filled/50/ffffff/facebook-new.png" alt="Icono de Facebook"></a>
+                <a href="#" target="_blank" aria-label="Instagram de Vístete"><img src="https://img.icons8.com/ios-filled/50/ffffff/instagram-new.png" alt="Icono de Instagram"></a>
+                <a href="#" target="_blank" aria-label="YouTube de Vístete"><img src="https://img.icons8.com/ios-filled/50/ffffff/youtube-play--v1.png" alt="Icono de YouTube"></a>
+            </div>
+        </div>
+        <div class="footer-bottom-robust">
+            <p>&copy; 2025 Vístete. Todos los derechos reservados. Diseñado para la excelencia.</p>
+        </div>
+    </footer>
+    <script src="js/contactenos.js"></script>
+</body>
+</html>

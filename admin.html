@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vístete - Panel de Administración</title>
+    <!-- Fuentes de Google: Montserrat para títulos y Lora para texto de cuerpo -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Enlace al CSS principal (para variables y estilos globales) -->
+    <link rel="stylesheet" href="css/index.css">
+    <!-- Enlace al CSS específico de la página de administración -->
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<style>
+    /* admin.css */
+
+/* Importa las variables y estilos base de index.css para mantener la coherencia */
+@import url('index.css');
+
+/* Estilos específicos para el cuerpo de la página de administración */
+body {
+    background-color: var(--light-bg); /* Fondo claro para el área de administración */
+}
+
+/* Contenido principal de la administración */
+.admin-main-content {
+    padding: 30px 0;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Secciones de administración */
+.admin-section {
+    display: none; /* Oculto por defecto */
+    padding: 80px 30px; /* Padding similar a otras secciones */
+    animation: fadeIn 0.5s ease-out; /* Animación de aparición */
+}
+
+.admin-section.active {
+    display: block; /* Mostrar la sección activa */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Títulos de sección para administración */
+.admin-section .section-title {
+    color: var(--dark-primary);
+    text-align: center;
+    margin-bottom: 60px;
+    font-size: 3.5rem;
+}
+
+.admin-section .section-title::after {
+    background-color: var(--accent-bold);
+    margin: 20px auto 0;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.dashboard-card {
+    background-color: var(--text-light);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.dashboard-card h3 {
+    font-size: 1.8rem;
+    color: var(--dark-primary);
+    margin-bottom: 15px;
+}
+
+.dashboard-card .metric {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--accent-bold);
+    margin-bottom: 10px;
+}
+
+.dashboard-card .trend {
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.dashboard-card .trend.positive {
+    color: #28a745; /* Verde para positivo */
+}
+
+.dashboard-card .trend.negative {
+    color: #dc3545; /* Rojo para negativo */
+}
+
+.dashboard-card .trend.neutral {
+    color: #ffc107; /* Amarillo para neutral */
+}
+
+/* Actividad Reciente */
+.recent-activity {
+    background-color: var(--text-light);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.recent-activity h3 {
+    font-size: 2rem;
+    color: var(--dark-primary);
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.recent-activity ul {
+    list-style: none;
+    padding: 0;
+}
+
+.recent-activity ul li {
+    font-size: 1.1rem;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: var(--text-main);
+}
+
+.recent-activity ul li:last-child {
+    border-bottom: none;
+}
+
+.recent-activity ul li i {
+    color: var(--subtle-blue);
+    font-size: 1.2rem;
+}
+
+/* Tablas de Gestión (Productos y Pedidos) */
+.product-management-table,
+.order-management-table {
+    background-color: var(--text-light);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    overflow-x: auto; /* Permite scroll horizontal en pantallas pequeñas */
+}
+
+.product-management-table table,
+.order-management-table table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 700px; /* Ancho mínimo para la tabla */
+}
+
+.product-management-table th,
+.order-management-table th {
+    background-color: var(--dark-primary);
+    color: var(--text-light);
+    padding: 15px 20px;
+    text-align: left;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.product-management-table td,
+.order-management-table td {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border-light);
+    color: var(--text-main);
+    font-size: 0.95rem;
+}
+
+.product-management-table tbody tr:hover,
+.order-management-table tbody tr:hover {
+    background-color: var(--light-bg);
+}
+
+.product-management-table td img {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+/* Botones de acción en tablas */
+.action-btn {
+    background: none;
+    border: none;
+    color: var(--subtle-blue);
+    font-size: 1.2rem;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.action-btn:hover {
+    color: var(--accent-bold);
+    transform: scale(1.1);
+}
+
+/* Botón "Añadir Nuevo Producto" */
+.add-new-btn {
+    margin-bottom: 30px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
+}
+
+/* Estilos para el estado de los pedidos */
+.status {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.status.completed {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status.pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status.shipped {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+/* Media Queries para Responsive Design */
+@media (max-width: 1024px) {
+    .admin-section {
+        padding: 60px 20px;
+    }
+
+    .admin-section .section-title {
+        font-size: 3rem;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    .dashboard-card .metric {
+        font-size: 3rem;
+    }
+
+    .recent-activity h3 {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-main-content {
+        padding: 20px 0;
+    }
+
+    .admin-section {
+        padding: 40px 15px;
+    }
+
+    .admin-section .section-title {
+        font-size: 2.5rem;
+        margin-bottom: 40px;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr; /* Una columna en móviles */
+        gap: 15px;
+    }
+
+    .dashboard-card {
+        padding: 20px;
+    }
+
+    .dashboard-card .metric {
+        font-size: 2.8rem;
+    }
+
+    .recent-activity h3 {
+        font-size: 1.6rem;
+    }
+
+    .recent-activity ul li {
+        font-size: 1rem;
+        padding: 10px 0;
+    }
+
+    .product-management-table,
+    .order-management-table {
+        padding: 10px;
+    }
+
+    .product-management-table th,
+    .order-management-table th,
+    .product-management-table td,
+    .order-management-table td {
+        padding: 10px 12px;
+        font-size: 0.85rem;
+    }
+
+    .product-management-table td img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .action-btn {
+        font-size: 1rem;
+        margin: 0 2px;
+    }
+
+    .add-new-btn {
+        padding: 12px 25px;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-section .section-title {
+        font-size: 2rem;
+    }
+    .dashboard-card .metric {
+        font-size: 2.2rem;
+    }
+    .dashboard-card h3 {
+        font-size: 1.5rem;
+    }
+    .recent-activity h3 {
+        font-size: 1.4rem;
+    }
+}
+
+</style>
+<body>
+    <!-- Custom Message Box (reemplazo de alert) -->
+    <div id="customMessageBox" class="custom-message-box-overlay">
+        <div class="custom-message-box-content">
+            <p id="messageBoxText"></p>
+            <button id="messageBoxCloseBtn" class="btn btn-primary">Aceptar</button>
+        </div>
+    </div>
+
+    <header class="main-header">
+        <nav class="main-nav">
+            <a href="index.html" class="logo">Vístete</a>
+            <button class="nav-toggle" aria-label="abrir navegación">
+                <span class="hamburger"></span>
+            </button>
+            <ul class="nav-menu">
+                <li class="nav-menu-item"><a href="admin.html#dashboard" class="nav-menu-link">Dashboard</a></li>
+                <li class="nav-menu-item"><a href="admin.html#products" class="nav-menu-link">Productos</a></li>
+                <li class="nav-menu-item"><a href="admin.html#orders" class="nav-menu-link">Pedidos</a></li>
+                <li class="nav-menu-item icon-item"><a href="index.html" class="nav-menu-link" aria-label="Volver a la tienda"><i class="fas fa-store"></i></a></li>
+                <li class="nav-menu-item icon-item"><a href="login.html" class="nav-menu-link" aria-label="Cerrar sesión"><i class="fas fa-sign-out-alt"></i></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="admin-main-content">
+        <!-- Sección de Dashboard -->
+        <section id="dashboard" class="admin-section section-container active">
+            <h2 class="section-title">Dashboard de Administración</h2>
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3>Ventas Totales</h3>
+                    <p class="metric">$125,450.75</p>
+                    <span class="trend positive"><i class="fas fa-arrow-up"></i> 12% vs. mes anterior</span>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Pedidos Pendientes</h3>
+                    <p class="metric">45</p>
+                    <span class="trend negative"><i class="fas fa-exclamation-circle"></i> Requiere atención</span>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Productos en Stock</h3>
+                    <p class="metric">1,230</p>
+                    <span class="trend neutral"><i class="fas fa-boxes"></i> Inventario saludable</span>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Nuevos Usuarios</h3>
+                    <p class="metric">87</p>
+                    <span class="trend positive"><i class="fas fa-user-plus"></i> 5% más que la semana pasada</span>
+                </div>
+            </div>
+
+            <div class="recent-activity">
+                <h3>Actividad Reciente</h3>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> Pedido #20250705-001 completado por Juan Pérez.</li>
+                    <li><i class="fas fa-box-open"></i> Nuevo producto "Zapatilla Urbana X" añadido.</li>
+                    <li><i class="fas fa-shipping-fast"></i> Envío para Pedido #20250705-002 programado.</li>
+                    <li><i class="fas fa-chart-line"></i> Reporte de ventas de junio generado.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Sección de Gestión de Productos -->
+        <section id="products" class="admin-section section-container">
+            <h2 class="section-title">Gestión de Productos</h2>
+            <button class="btn btn-primary add-new-btn"><i class="fas fa-plus"></i> Añadir Nuevo Producto</button>
+
+            <div class="product-management-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Imagen</th>
+                            <th>Nombre</th>
+                            <th>Categoría</th>
+                            <th>Precio</th>
+                            <th>Stock</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>PROD001</td>
+                            <td><img src="https://placehold.co/50x50/cccccc/333333?text=P1" alt="Producto 1"></td>
+                            <td>Bota Táctica "Apex"</td>
+                            <td>Hombres</td>
+                            <td>$249.99</td>
+                            <td>150</td>
+                            <td>
+                                <button class="action-btn edit-btn" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn delete-btn" title="Eliminar"><i class="fas fa-trash-alt"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>PROD002</td>
+                            <td><img src="https://placehold.co/50x50/cccccc/333333?text=P2" alt="Producto 2"></td>
+                            <td>Runner de Ciudad "Dash"</td>
+                            <td>Mujeres</td>
+                            <td>$139.50</td>
+                            <td>200</td>
+                            <td>
+                                <button class="action-btn edit-btn" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn delete-btn" title="Eliminar"><i class="fas fa-trash-alt"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>PROD003</td>
+                            <td><img src="https://placehold.co/50x50/cccccc/333333?text=P3" alt="Producto 3"></td>
+                            <td>Zapatilla Casual "Forge"</td>
+                            <td>Niños</td>
+                            <td>$99.00</td>
+                            <td>80</td>
+                            <td>
+                                <button class="action-btn edit-btn" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn delete-btn" title="Eliminar"><i class="fas fa-trash-alt"></i></button>
+                            </td>
+                        </tr>
+                        <!-- Más filas de productos aquí -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Sección de Gestión de Pedidos -->
+        <section id="orders" class="admin-section section-container">
+            <h2 class="section-title">Gestión de Pedidos</h2>
+            <div class="order-management-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID Pedido</th>
+                            <th>Cliente</th>
+                            <th>Fecha</th>
+                            <th>Total</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#20250705-001</td>
+                            <td>Juan Pérez</td>
+                            <td>2025-07-05</td>
+                            <td>$389.49</td>
+                            <td><span class="status completed">Completado</span></td>
+                            <td>
+                                <button class="action-btn view-btn" title="Ver Detalles"><i class="fas fa-eye"></i></button>
+                                <button class="action-btn print-btn" title="Imprimir Factura"><i class="fas fa-print"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#20250705-002</td>
+                            <td>María García</td>
+                            <td>2025-07-05</td>
+                            <td>$150.00</td>
+                            <td><span class="status pending">Pendiente</span></td>
+                            <td>
+                                <button class="action-btn view-btn" title="Ver Detalles"><i class="fas fa-eye"></i></button>
+                                <button class="action-btn process-btn" title="Procesar Pedido"><i class="fas fa-cogs"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#20250704-003</td>
+                            <td>Carlos Ruiz</td>
+                            <td>2025-07-04</td>
+                            <td>$299.99</td>
+                            <td><span class="status shipped">Enviado</span></td>
+                            <td>
+                                <button class="action-btn view-btn" title="Ver Detalles"><i class="fas fa-eye"></i></button>
+                                <button class="action-btn track-btn" title="Rastrear Envío"><i class="fas fa-truck"></i></button>
+                            </td>
+                        </tr>
+                        <!-- Más filas de pedidos aquí -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer-robust">
+        <div class="footer-content-robust">
+            <div class="footer-section-robust about">
+                <h3>Vístete</h3>
+                <p>Redefiniendo el paso de la humanidad, un zapato a la vez. Innovación, calidad y estilo incomparable.</p>
+            </div>
+            <div class="footer-section-robust links">
+                <h3>Acceso Rápido</h3>
+                <ul>
+                    <li><a href="index.html#destacados">Productos</a></li>
+                    <li><a href="index.html#categorias">Categorías</a></li>
+                    <li><a href="index.html#nosotros">Nuestra Misión</a></li>
+                    <li><a href="index.html#proximamente">Próximamente</a></li>
+                    <li><a href="index.html#novedades">Suscríbete</a></li>
+                </ul>
+            </div>
+            <div class="footer-section-robust social">
+                <h3>Conecta con Nosotros</h3>
+                <a href="#" target="_blank" aria-label="Facebook de Vístete"><img src="https://img.icons8.com/ios-filled/50/ffffff/facebook-new.png" alt="Icono de Facebook"></a>
+                <a href="#" target="_blank" aria-label="Instagram de Vístete"><img src="https://img.icons8.com/ios-filled/50/ffffff/instagram-new.png" alt="Icono de Instagram"></a>
+                <a href="#" target="_blank" aria-label="YouTube de Vístete"><img src="https://img.icons8.com/ios-filled/50/ffffff/youtube-play--v1.png" alt="Icono de YouTube"></a>
+            </div>
+        </div>
+        <div class="footer-bottom-robust">
+            <p>&copy; 2025 Vístete. Todos los derechos reservados. Diseñado para la excelencia.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Función para mostrar el Custom Message Box
+        function showCustomMessageBox(message) {
+            const messageBox = document.getElementById('customMessageBox');
+            const messageBoxText = document.getElementById('messageBoxText');
+            messageBoxText.textContent = message;
+            messageBox.style.display = 'flex';
+            setTimeout(() => {
+                messageBox.classList.add('active');
+            }, 50);
+        }
+
+        // Event listener para cerrar el Custom Message Box
+        document.getElementById('messageBoxCloseBtn').addEventListener('click', () => {
+            const messageBox = document.getElementById('customMessageBox');
+            messageBox.classList.remove('active');
+            setTimeout(() => {
+                messageBox.style.display = 'none';
+            }, 300);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navegación Responsive (menú hamburguesa)
+            const navToggle = document.querySelector('.nav-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+
+            if (navToggle && navMenu) {
+                navToggle.addEventListener('click', () => {
+                    navMenu.classList.toggle('active');
+                    navToggle.setAttribute(
+                        'aria-expanded',
+                        navMenu.classList.contains('active')
+                    );
+                });
+
+                // Cerrar el menú al hacer clic en un enlace (útil en móviles)
+                navMenu.querySelectorAll('.nav-menu-link').forEach(link => {
+                    link.addEventListener('click', () => {
+                        if (navMenu.classList.contains('active')) {
+                            navMenu.classList.remove('active');
+                            navToggle.setAttribute('aria-expanded', 'false');
+                        }
+                    });
+                });
+            }
+
+            // Lógica para cambiar entre secciones de administración
+            const navLinks = document.querySelectorAll('.nav-menu-link');
+            const adminSections = document.querySelectorAll('.admin-section');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    // Solo si el enlace es para una sección de administración (evita los iconos de tienda/logout)
+                    if (link.getAttribute('href').startsWith('admin.html#')) {
+                        e.preventDefault();
+                        const targetId = link.getAttribute('href').split('#')[1];
+
+                        adminSections.forEach(section => {
+                            section.classList.remove('active');
+                        });
+
+                        const targetSection = document.getElementById(targetId);
+                        if (targetSection) {
+                            targetSection.classList.add('active');
+                        }
+
+                        // Actualizar la clase 'active' en la navegación
+                        navLinks.forEach(navLink => navLink.classList.remove('active'));
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+            // Establecer la sección activa inicial al cargar la página
+            const initialHash = window.location.hash.substring(1);
+            if (initialHash) {
+                const initialSection = document.getElementById(initialHash);
+                if (initialSection) {
+                    adminSections.forEach(section => section.classList.remove('active'));
+                    initialSection.classList.add('active');
+                    // Activar el enlace de navegación correspondiente
+                    const activeNavLink = document.querySelector(`.nav-menu-link[href="admin.html#${initialHash}"]`);
+                    if (activeNavLink) {
+                        activeNavLink.classList.add('active');
+                    }
+                }
+            } else {
+                // Si no hay hash, activar el dashboard por defecto
+                document.getElementById('dashboard').classList.add('active');
+                document.querySelector('.nav-menu-link[href="admin.html#dashboard"]').classList.add('active');
+            }
+
+            // Lógica de botones de acción (simulada)
+            document.querySelectorAll('.add-new-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    showCustomMessageBox('Funcionalidad "Añadir Nuevo Producto" en desarrollo.');
+                });
+            });
+
+            document.querySelectorAll('.edit-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const row = button.closest('tr');
+                    const productName = row.cells[2].textContent;
+                    showCustomMessageBox(`Funcionalidad "Editar ${productName}" en desarrollo.`);
+                });
+            });
+
+            document.querySelectorAll('.delete-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const row = button.closest('tr');
+                    const productName = row.cells[2].textContent;
+                    showCustomMessageBox(`Funcionalidad "Eliminar ${productName}" en desarrollo.`);
+                });
+            });
+
+            document.querySelectorAll('.view-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const row = button.closest('tr');
+                    const orderId = row.cells[0].textContent;
+                    showCustomMessageBox(`Funcionalidad "Ver detalles del Pedido ${orderId}" en desarrollo.`);
+                });
+            });
+
+            document.querySelectorAll('.process-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const row = button.closest('tr');
+                    const orderId = row.cells[0].textContent;
+                    showCustomMessageBox(`Funcionalidad "Procesar Pedido ${orderId}" en desarrollo.`);
+                });
+            });
+
+            document.querySelectorAll('.print-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const row = button.closest('tr');
+                    const orderId = row.cells[0].textContent;
+                    showCustomMessageBox(`Funcionalidad "Imprimir factura del Pedido ${orderId}" en desarrollo.`);
+                });
+            });
+
+            document.querySelectorAll('.track-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const row = button.closest('tr');
+                    const orderId = row.cells[0].textContent;
+                    showCustomMessageBox(`Funcionalidad "Rastrear envío del Pedido ${orderId}" en desarrollo.`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
